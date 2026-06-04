@@ -19,3 +19,6 @@ dist/
 .pytest_cache/
 .coverage
 env/
+.env/
+.env
+
