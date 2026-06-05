@@ -11,6 +11,7 @@ from src.tools.calendar_tool import create_event
 from src.tools.github_tool import get_authenticated_user
 from src.tools.contact_tool import find_email_by_name
 from src.tools.contact_tool import add_contact, get_contact
+from src.tools.contacts_sync import sync_contacts_from_google, get_sync_status
 
 app = FastAPI(
     title="YOUR_OWN_BUSINESS_CREW API",
@@ -213,3 +214,30 @@ def get_contact_endpoint(name: str) -> Dict[str, Any]:
         raise
     except Exception as exc:
         raise HTTPException(status_code=500, detail=f"Get contact failed: {exc}")
+
+
+@app.post("/contacts/sync/google")
+def sync_contacts_google() -> Dict[str, Any]:
+    """
+    Sync contacts from Google Contacts API.
+    Requires Google OAuth2 setup with credentials.json in src/ directory.
+    """
+    try:
+        result = sync_contacts_from_google()
+        return result
+    except FileNotFoundError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+    except ImportError as exc:
+        raise HTTPException(status_code=500, detail=f"Google API not installed: {exc}")
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Contact sync failed: {exc}")
+
+
+@app.get("/contacts/sync/status")
+def get_contacts_sync_status() -> Dict[str, Any]:
+    """Get current contacts sync status and list."""
+    try:
+        status = get_sync_status()
+        return status
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Get sync status failed: {exc}")
