@@ -29,14 +29,22 @@ def _extract_subject(text: str) -> str:
 def _extract_name_from_text(text: str) -> Optional[str]:
     if not text:
         return None
-    # common patterns: "to NAME", "send to NAME", "for NAME"
-    match = re.search(r"(?:to|for|send to)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+){0,2})", text)
+    # Prioritize patterns: "to NAME", "send to NAME", "for NAME"
+    # Matches single or multi-word capitalized names
+    match = re.search(r"(?:to|for|send to)\s+([A-Z][a-zA-Z]+(?:\s+[A-Z][a-zA-Z]+){0,2})", text)
     if match:
         return match.group(1).strip()
-    # fallback: look for two capitalized words
-    match = re.search(r"([A-Z][a-z]+\s+[A-Z][a-z]+)", text)
+    
+    # Fallback: Look for a single capitalized word not preceded by an email address
+    match = re.search(r"\b(?<!@)([A-Z][a-zA-Z]+)\b", text)
     if match:
         return match.group(1).strip()
+    
+    # Another fallback: look for two capitalized words
+    match = re.search(r"([A-Z][a-zA-Z]+\s+[A-Z][a-zA-Z]+)", text)
+    if match:
+        return match.group(1).strip()
+    
     return None
 
 
@@ -162,17 +170,24 @@ def _maybe_run_tools(state: CorporateState, department_name: str, response_text:
         to_address = _extract_email(current_task)
         name = None
         if not to_address:
-            name = _extract_name_from_text(current_task) or _extract_name_from_text(response_text)
+            name = _extract_name_from_text(current_task)
+            if not name:
+                name = _extract_name_from_text(response_text)
+            
             if name:
+                print(f"DEBUG: Extracted name: {name}") # Debug print
                 try:
                     found = find_email_by_name(name)
                     if found:
                         to_address = found
                         messages.append(f"Resolved {name} -> {to_address}")
+                        print(f"DEBUG: Resolved email: {to_address}") # Debug print
                     else:
                         messages.append(f"Could not resolve an email address for recipient '{name}'. No email was sent.")
+                        print(f"DEBUG: Could not resolve email for {name}") # Debug print
                 except Exception as exc:
                     messages.append(f"Contact resolver failed: {exc}")
+                    print(f"DEBUG: Contact resolver failed for {name}: {exc}") # Debug print
 
         if not to_address:
             response_email = _extract_email(response_text)

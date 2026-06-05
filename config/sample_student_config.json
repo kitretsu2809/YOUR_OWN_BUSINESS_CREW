@@ -1,0 +1,41 @@
+{
+  "company_name": null,
+  "organization_name": null,
+  "industry": "AI engineering and advanced physics",
+  "target_audience": "internship recruiters, academic mentors, and project collaborators",
+  "brand_tone": "Clear, professional, and confident",
+  "user_profile": {
+    "name": "Your Name",
+    "role": "BSMS Physics student",
+    "specialization": "AI engineering and physics",
+    "objective": "Build a strong internship pipeline, master AI skills, and launch impactful projects",
+    "preferred_tone": "Professional but approachable",
+    "about": "A student combining physics intuition with practical AI engineering."
+  },
+  "active_departments": [
+    {
+      "name": "task_execution",
+      "focus_areas": ["Prioritize daily work", "Turn goals into tasks", "Track completion"],
+      "skills": ["task_planning", "daily_scheduler", "priority_manager"],
+      "allowed_tools": ["todo_manager", "calendar"]
+    },
+    {
+      "name": "communication",
+      "focus_areas": ["Draft outreach emails", "Rewrite messages", "Write follow-up templates"],
+      "skills": ["email_drafting", "message_editing", "follow_up_writer"],
+      "allowed_tools": ["email_composer"]
+    },
+    {
+      "name": "profile_manager",
+      "focus_areas": ["Optimize LinkedIn", "Polish resume/portfolio", "Monitor online presence"],
+      "skills": ["profile_review", "resume_tailoring", "portfolio_updating"],
+      "allowed_tools": ["profile_audit"]
+    },
+    {
+      "name": "research",
+      "focus_areas": ["Find study resources", "Summarize papers", "Build roadmaps"],
+      "skills": ["resource_curator", "topic_explainer", "roadmap_builder"],
+      "allowed_tools": ["document_summarizer"]
+    }
+  ]
+}
