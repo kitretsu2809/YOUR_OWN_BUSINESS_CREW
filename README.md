@@ -5,7 +5,7 @@ THE BUSINESS AUTOMATION
 This project is a customizable automation engine for students, founders, and content creators. It routes tasks through a CEO decision layer and department skills, then executes them with a generalized worker agent.
 
 ## What changed
-- Added user presets for `student`, `founder`, and `creator`
+- Added user presets for `personal`,`student`, `founder`, and `creator`
 - Added department skills and allowed tools metadata
 - Added a single configurable initialization flow via `main.py`
 - Added a clean configuration schema in `config/schema.py`
